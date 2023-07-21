@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
 import Logo from "../assets/images/logo.jpg";
+import { useAuth } from "../contexts/AuthContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleClick = () => {
-    console.log(email, password);
-    // Cookies.set('name', 'value');
+  const { signin } = useAuth();
+  const handleClick = async () => {
+    const result = await signin({username:email, password, scope:"string"})
+    console.log(result);
+    
   };
 
   return (
