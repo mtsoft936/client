@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { login, register } from "../api/auth.api";
 import { loginData, registerData, accountInterface } from "../types";
-import Cookies from "js-cookie";
 
 interface authContextInterface {
   token: string | null,
@@ -36,8 +35,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: JSX.Element }) {
-  const [account, setAccount] = useState(Cookies.get("account") || null);
-  const [token, setToken] = useState(Cookies.get("token") || null);
+  const [account, setAccount] = useState(localStorage.getItem("account") || null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [error, setError] = useState("");
 
   const signup = async (formData: registerData) => {
@@ -84,11 +83,11 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     if (token) {
-      Cookies.set("token", token);
-      Cookies.set("account", JSON.stringify(account));
+      localStorage.setItem("token", token);
+      localStorage.setItem("account", JSON.stringify(account));
     } else {
-      Cookies.remove("token");
-      Cookies.remove("account");
+      localStorage.removeItem("token");
+      localStorage.removeItem("account");
     }
   }, [token, account]);
 
