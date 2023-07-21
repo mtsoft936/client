@@ -6,7 +6,7 @@ import { loginData, registerData, accountInterface } from "../types";
 
 interface authContextInterface {
   token: string | null,
-  account: accountInterface | null,
+  account: string | null,
   error: string,
   signup: (formData: registerData) => void,
   signin: (formData: loginData) => void,
@@ -15,13 +15,7 @@ interface authContextInterface {
 
 const initialValue = {
   token: null,
-  account: {
-    id: "",
-    name: "",
-    username: "",
-    enabled: true,
-    tenants: []
-  },
+  account: null,
   error: "",
   signup: () => { },
   signin: () => { },
@@ -52,8 +46,11 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
   const signin = async (formData: loginData) => {
     try {
       const result = await login(formData);
-      setAccount(result.user);
-      setToken(result.token);
+      console.log(result);
+      if(result.token) {
+        setAccount(JSON.stringify(result.user));
+        setToken(result.token);
+      }
     } catch (e) {
       setError((e as Error).message);
     }
@@ -84,9 +81,13 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
-      localStorage.setItem("account", JSON.stringify(account));
     } else {
       localStorage.removeItem("token");
+    }
+
+    if (account) {
+      localStorage.setItem("account", account);
+    } else {
       localStorage.removeItem("account");
     }
   }, [token, account]);
@@ -99,7 +100,7 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
   return (
     <AuthContext.Provider
       value={{
-        account: JSON.parse(JSON.stringify(account)),
+        account: account,
         token,
         error,
         signup,

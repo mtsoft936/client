@@ -42,5 +42,6 @@ export interface role {
 }
 
 export interface menuFetchData {
-    tenantId: string
+    tenantId: string,
+    token: string
 }

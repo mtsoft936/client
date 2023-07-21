@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Logo from "../assets/images/logo.jpg";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signin, token } = useAuth();
 
-  const { signin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, [token])
+
   const handleClick = async () => {
-    const result = await signin({username:email, password, scope:"string"})
-    console.log(result);
-    
+    await signin({ username: email, password, scope: "string" })
   };
 
   return (

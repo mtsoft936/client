@@ -5,7 +5,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const login = async (data: loginData) => {
   try {
-    const result = await axios.post(backendUrl + "/Auth/signin", data);
+    const result = await axios.post(backendUrl + "/Auth/login", data);
     return result.data;
   } catch (e) {
     return e;
