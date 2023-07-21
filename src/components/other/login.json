@@ -1,0 +1,44 @@
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJmNzRjNDMzZS1mMzZiLTE0MTAtOGJjNi0wMDM4ZThhMmViM2IiLCJuYmYiOjE2ODk5MjYyMDAsImV4cCI6MTY4OTkyOTgwMCwiaWF0IjoxNjg5OTI2MjAwfQ.NuR1uVfQauT42vmeSYQlKoQrs1pxxsXKGgvZIINxldg",
+    "tokenExpireUTC": "2023-07-21T08:56:40Z",
+    "tokenValidity": 3600,
+    "user": {
+        "id": "f74c433e-f36b-1410-8bc6-0038e8a2eb3b",
+        "name": "",
+        "username": "string",
+        "enabled": true,
+        "tenants": [
+            {
+                "id": "fd4c433e-f36b-1410-8bc6-0038e8a2eb3b",
+                "description": "Inquilino1",
+                "enabled": true,
+                "deleted": false,
+                "role": [
+                    {
+                        "id": "034d433e-f36b-1410-8bc6-0038e8a2eb3b",
+                        "description": "Full admin",
+                        "enabled": true
+                    },
+                    {
+                        "id": "504d433e-f36b-1410-8bc6-0038e8a2eb3b",
+                        "description": "Lector",
+                        "enabled": true
+                    }
+                ]
+            },
+            {
+                "id": "884d433e-f36b-1410-8bc6-0038e8a2eb3b",
+                "description": "NuevoTenant",
+                "enabled": true,
+                "deleted": false,
+                "role": [
+                    {
+                        "id": "504d433e-f36b-1410-8bc6-0038e8a2eb3b",
+                        "description": "Lector",
+                        "enabled": true
+                    }
+                ]
+            }
+        ]
+    }
+}
