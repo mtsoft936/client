@@ -49,8 +49,8 @@ const SignIn = () => {
                 placeholder="Email address"
               />
               <input
-                type="text"
-                id="username"
+                type="password"
+                id="password"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}

@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { login, register } from "../api/auth.api";
 import { loginData, registerData, accountInterface } from "../types";
+import Cookies from "js-cookie";
 
 interface authContextInterface {
   token: string | null,
@@ -29,8 +30,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: JSX.Element }) {
-  const [account, setAccount] = useState(localStorage.getItem("account") || null);
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [account, setAccount] = useState(Cookies.get("account") || null);
+  const [token, setToken] = useState(Cookies.get("token") || null);
   const [error, setError] = useState("");
 
   const signup = async (formData: registerData) => {
@@ -51,6 +52,9 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
         setAccount(JSON.stringify(result.user));
         setToken(result.token);
       }
+      else{
+        alert("Your email or password is incorrect!")
+      }
     } catch (e) {
       setError((e as Error).message);
     }
@@ -60,6 +64,15 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
     setAccount(null);
     setToken(null);
   };
+
+  function checkCookieExpiration() {
+    const myCookieValue = Cookies.get('token');
+    if (typeof myCookieValue === 'undefined') {
+      logout();
+    }
+  }
+  
+  setInterval(checkCookieExpiration, 60000);
 
   const getAccount = async () => {
     try {
@@ -80,15 +93,15 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 0.04 });
     } else {
-      localStorage.removeItem("token");
+      Cookies.remove("token");
     }
 
     if (account) {
-      localStorage.setItem("account", account);
+      Cookies.set("account", account, { expires: 0.04 });
     } else {
-      localStorage.removeItem("account");
+      Cookies.remove("account");
     }
   }, [token, account]);
 
