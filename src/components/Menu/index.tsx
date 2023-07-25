@@ -9,15 +9,18 @@ const generateMenuItems = (items: any) => {
   return items?.map((item: any) => {
     if (item.childs && item.childs.length > 0) {
       return (
-        <SubMenu label={item.title} key={item.id}>
+        <SubMenu label={<div className='flex items-center'>
+        <i className={item.icon}></i>
+        {item.title}
+        </div>} key={item.id}>
           {generateMenuItems(item.childs)}
         </SubMenu>
       );
     } else {
       return (
         <MenuItem key={item.id}>
-          <div className='flex'>
-          
+          <div className='flex items-center'>
+          <i className={item.icon}></i>
           {item.title}
           </div>
         </MenuItem>
