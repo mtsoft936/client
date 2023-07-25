@@ -54,6 +54,7 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
       if (result.token) {
         setAccount(JSON.stringify(result.user));
         setToken(result.token);
+        Setalertshow(false);
       }
       else {
         Setalertcontent("Your email or password is incorrect!");
