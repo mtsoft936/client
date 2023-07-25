@@ -112,13 +112,13 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     if (token) {
-      Cookies.set("token", token, { expires: 0.04 });
+      Cookies.set("token", token, { expires: 0.02 });
     } else {
       Cookies.remove("token");
     }
 
     if (account) {
-      Cookies.set("account", account, { expires: 0.04 });
+      Cookies.set("account", account, { expires: 0.02 });
     } else {
       Cookies.remove("account");
     }

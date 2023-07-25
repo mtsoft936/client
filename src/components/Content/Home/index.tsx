@@ -1,37 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
-import Img1 from "../../../assets/images/1.jpg";
-import Img2 from "../../../assets/images/2.jpg";
-import Img3 from "../../../assets/images/3.jpg";
-import Img4 from "../../../assets/images/4.jpg";
+
+import { useAuth } from "../../../contexts/AuthContext";
+import { getSection } from '../../../api/section.api';
+import Loader from '../../Content/Loader';
+
 
 export default function Content() {
+  const { token, account } = useAuth();
+  const [sectionData, SetsectionData] = useState([]);
+  const [loading, Setloading] = useState(true);
+
+  const getsectionItem = async () => {
+    if (token && account) {
+      const result = await getSection({ tenantId: (JSON.parse(account)).tenants[0].id, token: token });
+      SetsectionData((result.data)?.filter((item: any) => item.visible === true));
+      Setloading(false);
+    }
+  }
+  useEffect(() => {
+    getsectionItem();
+  }, []);
+
+  useEffect(() => {
+    Setloading(false)
+  }, [sectionData]);
+
   return (
     <div>
       <div className="font-sans text-3xl font-bold p-5">
         Hola, GMO Solutions 👏
       </div>
-      <div className="flex flex-row p-5">
-        <div className="bg-[#d4f3e6] w-[22%] mr-[4%] rounded-2xl">
-          <img src={Img4} alt="" className="mx-auto mt-[50px]" />
-          <div className="text-2xl font-bold text-center mt-5">Empresa</div>
-          <div className="text-center mt-5 mb-[30px]">Datos basicos</div>
-        </div>
-        <div className="bg-[#d5f6fa] w-[22%] mr-[4%] rounded-2xl">
-          <img src={Img1} alt="" className="mx-auto mt-[50px]" />
-          <div className="text-2xl font-bold text-center mt-5">Personal</div>
-          <div className="text-center mt-5 mb-[30px]">Nomina de personal de la empresa</div>
-        </div>
-        <div className="bg-[#fff2d5] w-[22%] mr-[4%] rounded-2xl">
-          <img src={Img2} alt="" className="mx-auto mt-[50px]" />
-          <div className="text-2xl font-bold text-center mt-5">Vehiculos</div>
-          <div className="text-center mt-5 mb-[30px]">Nomina de vehiculos de la empresa</div>
-        </div>
-        <div className="bg-[#ffe5dd] w-[22%] rounded-2xl">
-          <img src={Img3} alt="" className="mx-auto mt-[50px]" />
-          <div className="text-2xl font-bold text-center mt-5">Maquinaria</div>
-          <div className="text-center mt-5 mb-[30px]">Nomina de maquinaria de la empresa</div>
-        </div>
+      <div className="flex flex-wrap p-5">
+        {sectionData?.map((item: any) => (
+          <div className="bg-gray-100 hover:bg-green-300 w-[22%] mr-[1.5%] ml-[1.5%] rounded-2xl mt-2 mb-2">
+            <div className='text-center text-4xl mt-5 text-red-300'>
+              <i className={item.icon}></i>
+            </div>
+            <div className="text-2xl font-bold text-center mt-5">{item.description}</div>
+            <div className="text-center mt-5 mb-[30px]">{item.long_description}</div>
+          </div>
+        )
+        )}
+
       </div>
     </div>
   )

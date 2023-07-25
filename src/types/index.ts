@@ -45,3 +45,8 @@ export interface menuFetchData {
     tenantId: string,
     token: string
 }
+
+export interface sectionFetchData {
+    tenantId: string,
+    token: string
+}
