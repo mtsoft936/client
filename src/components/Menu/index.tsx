@@ -3,9 +3,10 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 import { getMenu } from '../../api/menu.api';
 import { useAuth } from "../../contexts/AuthContext";
+import Loader from '../Content/Loader';
 
-const generateMenuItems = (items:any) => {
-  return items?.map((item:any) => {
+const generateMenuItems = (items: any) => {
+  return items?.map((item: any) => {
     if (item.childs && item.childs.length > 0) {
       return (
         <SubMenu label={item.title} key={item.id}>
@@ -15,7 +16,10 @@ const generateMenuItems = (items:any) => {
     } else {
       return (
         <MenuItem key={item.id}>
+          <div className='flex'>
+          
           {item.title}
+          </div>
         </MenuItem>
       );
     }
@@ -25,24 +29,30 @@ const generateMenuItems = (items:any) => {
 const App = () => {
 
   const [menuData, SetmenuData] = useState([]);
-  const {token, account} = useAuth();
-  const getmenuItem = async () =>{
-    if(token&&account){
-      const result = await getMenu({tenantId: (JSON.parse(account)).tenants[0].id, token: token});
+  const { token, account } = useAuth();
+  const [loading, Setloading] = useState(true);
+  const getmenuItem = async () => {
+    if (token && account) {
+      const result = await getMenu({ tenantId: (JSON.parse(account)).tenants[0].id, token: token });
       SetmenuData(result.data);
-      console.log(1)
+      Setloading(false);
     }
   }
   useEffect(() => {
     getmenuItem();
   }, []);
-  
+
+  useEffect(() => {
+    Setloading(false)
+  }, [menuData]);
+
   return (
     <div>
       <Sidebar>
+        {loading&&<Loader />}
         <Menu>
           {generateMenuItems(menuData)}
-        </Menu>        
+        </Menu> 
       </Sidebar>
     </div>
   );
