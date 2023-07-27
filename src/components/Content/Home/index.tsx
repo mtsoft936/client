@@ -22,14 +22,17 @@ export default function Content() {
     getsectionItem();
   }, []);
 
-  useEffect(() => {
-    Setloading(false)
-  }, [sectionData]);
+  // useEffect(() => {
+  //   Setloading(false)
+  // }, [sectionData]);
 
   return (
     <div>
       <div className="font-sans text-3xl font-bold p-5">
         Hola, GMO Solutions 👏
+      </div>
+      <div className='flex items-center justify-center'>
+        {loading && <Loader />}
       </div>
       <div className="flex flex-wrap p-5">
         {sectionData?.map((item: any) => (

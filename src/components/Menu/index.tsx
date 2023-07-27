@@ -45,9 +45,9 @@ const App = () => {
     getmenuItem();
   }, []);
 
-  useEffect(() => {
-    Setloading(false)
-  }, [menuData]);
+  // useEffect(() => {
+  //   Setloading(false)
+  // }, [menuData]);
 
   return (
     <div>
